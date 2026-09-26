@@ -1,0 +1,18 @@
+# Render Blueprint: serves the prebuilt game as a static site (no build step needed).
+services:
+  - type: web
+    name: crown-poker
+    runtime: static
+    buildCommand: echo "Prebuilt site - nothing to build"
+    staticPublishPath: .
+    headers:
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: Referrer-Policy
+        value: strict-origin-when-cross-origin
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
